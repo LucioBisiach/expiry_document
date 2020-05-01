@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_expiry_document,access.expiry.document,model_expiry_document,,1,1,1,1
+access_expiry_document_list,access.expiry.document.list,model_expiry_document_list,,1,1,1,1

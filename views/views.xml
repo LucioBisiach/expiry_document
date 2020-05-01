@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="expiry_document_form" model="ir.ui.view">
+        <field name="name">expiry.document.form</field>
+        <field name="model">expiry.document</field>
+        <field name="arch" type="xml">
+            <form >
+                <sheet string="Vencimientos">
+                    <div class="oe_title">
+                        <h2 class="o_row">
+                            <field name="name" decoration-bf="name"/>
+                        </h2>
+                    </div>
+                    <group string="Datos">
+                        <group >
+                            <field name="type_expiry"/>
+                            <field name="vehicle" attrs="{'invisible': [('type_expiry','!=','fleet')]}"/>
+                            <field name="employee" attrs="{'invisible': [('type_expiry','!=','employee')]}"/>
+                        </group>
+
+                        <group>                           
+                            <field name="date_stop"/>
+                            <field name="remaining_days"/>
+                            <field name="alert_days"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Vencimientos">
+                            <field name="expiry_ids">
+                                <tree editable="buttom">
+                                    <field name="name"/>
+                                    <field name="relationship"/>
+                                    <field name="date_start"/>
+                                    <field name="date_stop"/>
+                                    <field name="date_payment"/>
+                                    <field name="remaining_days"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+            
+        </field>
+    </record>
+
+    <record id="tree_expiry_document" model="ir.ui.view">
+        <field name="name">tms.expiry.document.list.tree</field>
+        <field name="model">expiry.document</field>
+        <field name="arch" type="xml">
+            <tree string="Documents List">
+                <field name="name"/>
+                <field name="date_stop"/>
+                <field name="remaining_days"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="action_expiry_documents" model="ir.actions.act_window">
+        <field name="name">Expiry Documents</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">expiry.document</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            Create your First Expiry Document !
+            </p>
+        </field>
+    </record>
+
+
+
+    <record id="expiry_document_list_form" model="ir.ui.view">
+        <field name="name">expiry.document.list.form</field>
+        <field name="model">expiry.document.list</field>
+        <field name="arch" type="xml">
+            <form >
+            <header>
+                <field name="state" widget="statusbar" statusbar_visible="sinfecha,pendiente,proximo,vencido,pagado"/>
+                
+            </header>
+                <sheet string="Lista de Vencimientos">
+                    <div class="oe_title">
+                        <h2 class="o_row">
+                            <field name="name" decoration-bf="name"/>
+                        </h2>
+                    </div>
+                    <group string="Datos">
+                        <group >
+                            <field name="date_start"/>
+                            <field name="date_stop"/>
+                            <field name="date_payment"/>
+                        </group>
+                        <group>                           
+                            <field name="remaining_days"/>
+                            <field name="relationship"/>
+                            <button name="mail_reminder" type="object" string="Enviar Mail"></button>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+            
+        </field>
+    </record>
+
+    <record id="tree_expiry_document_lst" model="ir.ui.view">
+        <field name="name">tms.expiry.document.list.tree</field>
+        <field name="model">expiry.document.list</field>
+        <field name="arch" type="xml">
+            <tree string="Expiry Documents List" decoration-bf="state=='proximo' or state=='vencido'" decoration-muted="state=='sinfecha'" decoration-info="state=='pendiente'" decoration-warning="state=='proximo'" decoration-danger="state=='vencido'" decoration-success="state=='pagado'">
+                <field name="name"/>
+                <field name="relationship"/>
+                <field name="date_start"/>
+                <field name="date_stop"/>
+                <field name="date_payment"/>
+                <field name="remaining_days"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="action_expiry_documents_list" model="ir.actions.act_window">
+        <field name="name">Expiry Documents List</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">expiry.document.list</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            Create your First Expiry Document !
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="expiry_document_root" name="Vencimientos" sequence="2"/>
+
+    <menuitem id="menu_expiry" name="Vencimientos" parent="expiry_document_root" sequence="5"/>   
+            
+        <menuitem id="document_expiry" name="Vencimientos" parent="menu_expiry" sequence="1"/>
+
+            <menuitem id="document_expiry_group" name="Grupo de Vencimientos" parent="document_expiry" action="action_expiry_documents" sequence="2"/>
+
+            <menuitem id="document_expiry_list" name="Lista de Vencimientos" parent="document_expiry" action="action_expiry_documents_list" sequence="3"/>
+
+
+</odoo>
