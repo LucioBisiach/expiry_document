@@ -25,7 +25,10 @@
     # always loaded
     'data': [
         'security/ir.model.access.csv',
+
         'views/views.xml',
+        'views/inherit_fleet.xml',
+        'views/inherit_employee.xml',
 
         'data/ir_cron.xml',
     ],
